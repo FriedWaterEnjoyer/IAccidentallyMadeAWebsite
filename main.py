@@ -10,9 +10,10 @@ from sqlalchemy import Integer, String, Text, ForeignKey
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
+import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
@@ -23,7 +24,11 @@ da_login_manager = LoginManager()
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bbbb_posts.db'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("SQL_ALCHEMY_DATABASE_URI", "sqlite:///bbbb_posts.db")
+# SQL_ALCHEMY_DATABASE_URI contains the URL pointing to the online database.
+# sqlite:///bbbb_posts.db is the fallback URL to use if SQL_ALCHEMY_DATABASE_URI is not found,
+# so the default is to use the local database stored on the PC which is handy for testing.
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
@@ -324,6 +329,6 @@ def contact():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5002)
+    app.run(debug=False, port=5002)
 
 # AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
