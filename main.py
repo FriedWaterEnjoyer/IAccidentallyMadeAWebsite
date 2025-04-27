@@ -25,7 +25,7 @@ da_login_manager = LoginManager()
 class Base(DeclarativeBase):
     pass
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("SQL_ALCHEMY_DATABASE_URI", "sqlite:///bbbb_posts.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///bbbb_posts.db")
 # SQL_ALCHEMY_DATABASE_URI contains the URL pointing to the online database.
 # sqlite:///bbbb_posts.db is the fallback URL to use if SQL_ALCHEMY_DATABASE_URI is not found,
 # so the default is to use the local database stored on the PC which is handy for testing.
